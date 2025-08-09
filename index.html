@@ -3,110 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lame Jokes by Vinamra</title>
+<title>Lame Jokes by Shradha and Vinamra</title>
 <style>
     body {
-        font-family: 'Comic Sans MS', sans-serif;
-        background-color: #fefaf6;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #fceabb, #f8b500);
         margin: 0;
         padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
         color: #333;
     }
-    header {
-        text-align: center;
-        padding: 2rem;
-        background-color: #ffe0ac;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    header h1 {
-        margin: 0;
-        font-size: 2.5rem;
-    }
-    header p {
-        font-style: italic;
-        margin: 0.5rem 0 0;
-    }
     .container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
+        background: rgba(255, 255, 255, 0.9);
         padding: 2rem;
-        max-width: 1000px;
-        margin: auto;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        max-width: 500px;
     }
-    .joke-card {
-        background: #ffffff;
-        padding: 1.5rem;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        transition: transform 0.2s ease;
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
     }
-    .joke-card:hover {
-        transform: translateY(-5px);
+    p.tagline {
+        font-style: italic;
+        margin-bottom: 2rem;
+        color: #666;
+    }
+    .joke {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+        min-height: 60px;
+    }
+    .countdown {
+        font-size: 1rem;
+        color: #ff7f50;
+        height: 20px;
+        margin-bottom: 1rem;
     }
     button {
-        display: block;
-        margin: 1rem auto;
-        padding: 0.7rem 1.5rem;
-        background-color: #ffb347;
+        padding: 0.8rem 2rem;
+        background: #ff7f50;
+        color: white;
         border: none;
         border-radius: 25px;
         font-size: 1rem;
         cursor: pointer;
-        transition: background 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: background 0.3s ease, transform 0.2s ease;
     }
     button:hover {
-        background-color: #ff9a1f;
+        background: #ff6333;
+        transform: scale(1.05);
     }
     footer {
-        text-align: center;
-        padding: 1rem;
-        font-size: 0.9rem;
-        background-color: #ffe0ac;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
+        font-size: 0.85rem;
+        color: #888;
     }
 </style>
 </head>
 <body>
 
-<header>
+<div class="container">
     <h1>Lame Jokes by Shradha and Vinamra</h1>
-    <p>So bad… they’re good 🤦‍♂️</p>
-    <button onclick="showRandomJoke()">🎲 Random Joke</button>
-</header>
-
-<div class="container" id="joke-container">
-    <!-- Jokes will be inserted here -->
+    <p class="tagline">So bad… they’re good 🤦‍♂️</p>
+    <div class="joke" id="joke-display"></div>
+    <div class="countdown" id="countdown"></div>
+    <button onclick="nextJoke()">Next Joke ➡</button>
+    <footer>© 2025 Shradha and Vinamra</footer>
 </div>
-
-<footer>
-    © 2025 Shradha and Vinamra | Made with 🤦‍♂️ and ☕
-</footer>
 
 <script>
 const jokes = [
-    "(Hindi Version) Why can't rivers hear? Because wo behri hoti hai",
-    "Why does Ronaldo clean his room all the time?... Because he's not Messi",
+    "Why can't rivers hear? Because wo behri hoti hai",
+    "Why does Ronaldo clean his room all the time? Because he's not Messi",
     "I know only 25 letters of the alphabet. I don't know y",
     "Why don't skeletons fight each other? They don't have the guts.",
     "Why can't you trust atoms? Because they make up everything",
-    "I told my wife she should embrace her mistakes… She gave me a hug.",
+    "I told my wife she should embrace her mistakes. She gave me a hug.",
     "Why don’t eggs tell jokes? They’d crack each other up.",
     "I’m reading a book about anti-gravity. It’s impossible to put down.",
-    "Why did the scarecrow win an award? Because he was outstanding in his field.",
+    "Why did the scarecrow win an award? Because he was outstanding in his field."
 ];
 
-function displayJokes() {
-    const container = document.getElementById("joke-container");
-    container.innerHTML = jokes.map(j => `<div class="joke-card">${j}</div>`).join("");
+let index = 0;
+let typingInterval;
+let countdownInterval;
+
+function typeWriterEffectWithPause(text, elementId, speed = 40, pauseTime = 5000) {
+    const sentences = text.split(/(?<=[.?!])\s+/);
+    const element = document.getElementById(elementId);
+    const countdownEl = document.getElementById("countdown");
+    element.innerHTML = "";
+    countdownEl.innerHTML = "";
+    clearInterval(typingInterval);
+    clearInterval(countdownInterval);
+
+    // Type first sentence
+    let i = 0;
+    typingInterval = setInterval(() => {
+        if (i < sentences[0].length) {
+            element.innerHTML += sentences[0].charAt(i);
+            i++;
+        } else {
+            clearInterval(typingInterval);
+            if (sentences.length > 1) {
+                let timeLeft = pauseTime / 1000;
+                countdownEl.innerHTML = `Punchline in ${timeLeft}s...`;
+                countdownInterval = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft > 0) {
+                        countdownEl.innerHTML = `Punchline in ${timeLeft}s...`;
+                    } else {
+                        clearInterval(countdownInterval);
+                        countdownEl.innerHTML = "";
+                        element.innerHTML += " ";
+                        let j = 0;
+                        typingInterval = setInterval(() => {
+                            if (j < sentences[1].length) {
+                                element.innerHTML += sentences[1].charAt(j);
+                                j++;
+                            } else {
+                                clearInterval(typingInterval);
+                            }
+                        }, speed);
+                    }
+                }, 1000);
+            }
+        }
+    }, speed);
 }
 
-function showRandomJoke() {
-    const random = jokes[Math.floor(Math.random() * jokes.length)];
-    alert(random);
+function displayJoke() {
+    typeWriterEffectWithPause(jokes[index], "joke-display", 40, 5000);
 }
 
-displayJokes();
+function nextJoke() {
+    index = (index + 1) % jokes.length;
+    displayJoke();
+}
+
+window.onload = displayJoke;
 </script>
 
 </body>
