@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lame Jokes by Vinamra</title>
+<style>
+    body {
+        font-family: 'Comic Sans MS', sans-serif;
+        background-color: #fefaf6;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+    header {
+        text-align: center;
+        padding: 2rem;
+        background-color: #ffe0ac;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+    }
+    header p {
+        font-style: italic;
+        margin: 0.5rem 0 0;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        padding: 2rem;
+        max-width: 1000px;
+        margin: auto;
+    }
+    .joke-card {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+    .joke-card:hover {
+        transform: translateY(-5px);
+    }
+    button {
+        display: block;
+        margin: 1rem auto;
+        padding: 0.7rem 1.5rem;
+        background-color: #ffb347;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+    button:hover {
+        background-color: #ff9a1f;
+    }
+    footer {
+        text-align: center;
+        padding: 1rem;
+        font-size: 0.9rem;
+        background-color: #ffe0ac;
+        margin-top: 2rem;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Lame Jokes by Shradha and Vinamra</h1>
+    <p>So bad… they’re good 🤦‍♂️</p>
+    <button onclick="showRandomJoke()">🎲 Random Joke</button>
+</header>
+
+<div class="container" id="joke-container">
+    <!-- Jokes will be inserted here -->
+</div>
+
+<footer>
+    © 2025 Shradha and Vinamra | Made with 🤦‍♂️ and ☕
+</footer>
+
+<script>
+const jokes = [
+    "(Hindi Version) Why can't rivers hear? Because wo behri hoti hai",
+    "Why does Ronaldo clean his room all the time?... Because he's not Messi",
+    "I know only 25 letters of the alphabet. I don't know y",
+    "Why don't skeletons fight each other? They don't have the guts.",
+    "Why can't you trust atoms? Because they make up everything",
+    "I told my wife she should embrace her mistakes… She gave me a hug.",
+    "Why don’t eggs tell jokes? They’d crack each other up.",
+    "I’m reading a book about anti-gravity. It’s impossible to put down.",
+    "Why did the scarecrow win an award? Because he was outstanding in his field.",
+];
+
+function displayJokes() {
+    const container = document.getElementById("joke-container");
+    container.innerHTML = jokes.map(j => `<div class="joke-card">${j}</div>`).join("");
+}
+
+function showRandomJoke() {
+    const random = jokes[Math.floor(Math.random() * jokes.length)];
+    alert(random);
+}
+
+displayJokes();
+</script>
+
+</body>
+</html>
